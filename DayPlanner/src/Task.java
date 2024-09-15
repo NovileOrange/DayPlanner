@@ -2,26 +2,45 @@ import java.time.LocalDateTime;
 
 public class Task {
     private String title;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
-    public Task(String title, LocalDateTime startTime, LocalDateTime endTime) {
+    public Task(String title, LocalDateTime start, LocalDateTime end) {
         this.title = title;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.start = start;
+        this.end = end;
     }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String getTitle() {
+        return title;
+    }
 
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
 
     @Override
     public String toString() {
-        return "Task: " + title + ", Starts: " + startTime.getHour() + ", Ends: " + endTime.getHour();
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
     }
 }

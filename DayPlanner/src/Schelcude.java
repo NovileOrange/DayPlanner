@@ -1,32 +1,51 @@
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;  // For filtering tasks using streams
+import java.util.List;
 
 public class Schelcude {
     private List<Task> tasks;
 
     public Schelcude() {
-        tasks = new ArrayList<>();
+        this.tasks = new ArrayList<>();
     }
 
     public void addTask(Task task) {
         tasks.add(task);
     }
 
-    public void removeTask(Task task) {
-        tasks.remove(task);
+    public Task findTaskByTitle(String title) {
+        for (Task task : tasks) {
+            if (task.getTitle().equalsIgnoreCase(title)) {
+                return task;
+            }
+        }
+        return null;
     }
 
-    public List<Task> getTasksForDay(LocalDate date) {
-        return tasks.stream()
-                .filter(task -> task.getStartTime().toLocalDate().equals(date))
-                .collect(Collectors.toList());
+    public void updateTask(Task oldTask, Task newTaskDetails) {
+        int index = tasks.indexOf(oldTask);
+        if (index != -1) {
+            tasks.set(index, newTaskDetails);
+        } else {
+            System.out.println("Nuh uh");
+        }
+    }
+
+    public void deleteTask(Task task) {
+        if (tasks.remove(task)) {
+            System.out.println("Deleted");
+        } else {
+            System.out.println("Nuh uh");
+        }
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     @Override
     public String toString() {
-        return "Planner: " + tasks;
+        return "Schelcude{" +
+                "tasks=" + tasks +
+                '}';
     }
 }
