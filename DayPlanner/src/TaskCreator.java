@@ -17,23 +17,49 @@ public class TaskCreator {
     }
 
     public Task createTask() {
-        LocalDateTime taskDate = dateManager.getDateInput();
+        try {
+            LocalDateTime taskDate = dateManager.getDateInput();
+            LocalTime startLocalTime = getTimeFromUser("Start time (HH:mm): ");
+            LocalTime endLocalTime = getTimeFromUser("End time (HH:mm): ");
 
-        LocalTime startLocalTime = getTimeFromUser("Start time (HH:mm): ");
-        LocalTime endLocalTime = getTimeFromUser("End time (HH:mm): ");
+            if (endLocalTime.isBefore(startLocalTime)) {
+                System.out.println("Why is the end earlier than the start? \n");
+                return null;
+            }
 
-        if (endLocalTime.isBefore(startLocalTime)) {
-            System.out.println("Why are end is earlier than start? \n");
+            LocalDateTime start = LocalDateTime.of(taskDate.toLocalDate(), startLocalTime);
+            LocalDateTime end = LocalDateTime.of(taskDate.toLocalDate(), endLocalTime);
+
+            System.out.println("Enter the title of the task: ");
+            String title = scanner.nextLine();
+
+            System.out.println("Is this a recurring task? (yes/no): ");
+            String isRecurring = scanner.nextLine().trim().toLowerCase();
+
+            if (isRecurring.equals("yes")) {
+                System.out.println("Enter recurrence pattern (e.g., DAILY, WEEKLY, MONTHLY): ");
+                String recurrence = scanner.nextLine();
+
+                System.out.println("Enter the number of occurrences: ");
+                int occurrenceCount;
+                try {
+                    occurrenceCount = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number for occurrences. Please enter a valid integer.");
+                    return null;
+                }
+
+                System.out.printf("Creating a recurring task: %s, Start: %s, End: %s, Recurrence: %s, Occurrences: %d%n",
+                        title, start, end, recurrence, occurrenceCount);
+
+                return new RecurringTask(title, start, end, recurrence, occurrenceCount);
+            }
+
+            return new Task(title, start, end);
+        } catch (Exception e) {
+            System.out.println("An error occurred while creating the task: " + e.getMessage());
             return null;
         }
-
-        LocalDateTime start = LocalDateTime.of(taskDate.toLocalDate(), startLocalTime);
-        LocalDateTime end = LocalDateTime.of(taskDate.toLocalDate(), endLocalTime);
-
-        System.out.println("Enter the title of the task: ");
-        String title = scanner.nextLine();
-
-        return new Task(title, start, end);
     }
 
     private LocalTime getTimeFromUser(String prompt) {
@@ -43,7 +69,7 @@ public class TaskCreator {
             try {
                 return LocalTime.parse(timeInput, TIME_FORMATTER);
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid time format");
+                System.out.println("Invalid time format. Please use HH:mm.");
             }
         }
     }

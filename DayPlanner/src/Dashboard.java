@@ -15,13 +15,15 @@ public class Dashboard {
     public void displayStatistics() {
         List<Task> tasks = schelcude.getTasks();
 
-        Map<LocalDateTime, List<Task>> tasksByDate = tasks.stream()
-                .collect(Collectors.groupingBy(task -> LocalDateTime.of(
-                        task.getStart().getYear(),
-                        task.getStart().getMonth(),
-                        task.getStart().getDayOfMonth(),
-                        0, 0
-                ), TreeMap::new, Collectors.toList()));
+        Map<LocalDateTime, List<Task>> tasksByDate = new TreeMap<>();
+
+        tasks.stream()
+                .filter(task -> !(task instanceof RecurringTask))
+                .forEach(task -> addTaskToMap(tasksByDate, task));
+
+        tasks.stream()
+                .filter(task -> task instanceof RecurringTask)
+                .forEach(task -> addRecurringTaskToMap(tasksByDate, (RecurringTask) task));
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
@@ -39,6 +41,41 @@ public class Dashboard {
                 System.out.printf("%s-%s | %s%n", startTime, endTime, task.getTitle());
             }
             System.out.println();
+        }
+    }
+
+    private void addTaskToMap(Map<LocalDateTime, List<Task>> tasksByDate, Task task) {
+        LocalDateTime dateKey = LocalDateTime.of(task.getStart().getYear(),
+                task.getStart().getMonth(),
+                task.getStart().getDayOfMonth(),
+                0, 0);
+        tasksByDate.computeIfAbsent(dateKey, k -> new java.util.ArrayList<>()).add(task);
+    }
+
+    private void addRecurringTaskToMap(Map<LocalDateTime, List<Task>> tasksByDate, RecurringTask recurringTask) {
+        LocalDateTime startDate = recurringTask.getStart();
+        LocalDateTime endDate = recurringTask.getEnd();
+        int occurrenceCount = recurringTask.getOccurrenceCount();
+
+        for (int i = 0; i < occurrenceCount; i++) {
+            LocalDateTime occurrenceDate = getNextOccurrence(startDate, recurringTask.getRecurrence(), i);
+            LocalDateTime occurrenceEnd = occurrenceDate.plusHours(endDate.getHour() - startDate.getHour())
+                    .plusMinutes(endDate.getMinute() - startDate.getMinute());
+            Task occurrenceTask = new Task(recurringTask.getTitle(), occurrenceDate, occurrenceEnd);
+            addTaskToMap(tasksByDate, occurrenceTask);
+        }
+    }
+
+    private LocalDateTime getNextOccurrence(LocalDateTime startDate, String recurrence, int occurrenceIndex) {
+        switch (recurrence.toUpperCase()) {
+            case "DAILY":
+                return startDate.plusDays(occurrenceIndex);
+            case "WEEKLY":
+                return startDate.plusWeeks(occurrenceIndex);
+            case "MONTHLY":
+                return startDate.plusMonths(occurrenceIndex);
+            default:
+                return startDate;
         }
     }
 }
