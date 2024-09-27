@@ -1,3 +1,11 @@
+package Controller;
+
+import Model.RecurringTask;
+import Model.Schelcude;
+import Model.Task;
+import Service.Dashboard;
+import Service.TaskCreator;
+
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -39,9 +47,9 @@ public class Main {
                             if (taskToUpdate != null) {
                                 Task newTaskDetails = taskCreator.createTask();
                                 schelcude.updateTask(taskToUpdate, newTaskDetails);
-                                System.out.println("Task updated: " + newTaskDetails);
+                                System.out.println("Model.Task updated: " + newTaskDetails);
                             } else {
-                                System.out.println("Task not found.");
+                                System.out.println("Model.Task not found.");
                             }
                         } catch (Exception e) {
                             System.out.println("Error updating task: " + e.getMessage());
@@ -55,7 +63,7 @@ public class Main {
                             if (taskToDelete != null) {
                                 schelcude.deleteTask(taskToDelete);
                             } else {
-                                System.out.println("Task not found.");
+                                System.out.println("Model.Task not found.");
                             }
                         } catch (Exception e) {
                             System.out.println("Error deleting task: " + e.getMessage());
@@ -77,7 +85,7 @@ public class Main {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.nextLine(); // clear the invalid input
+                scanner.nextLine();
             } catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
             }
@@ -105,7 +113,7 @@ public class Main {
             );
 
             RecurringTask recurringTask = new RecurringTask(
-                    "ew",
+                    "Something",
                     LocalDateTime.of(2024, 1, 1, 12, 0),
                     LocalDateTime.of(2024, 1, 1, 13, 0),
                     "DAILY",

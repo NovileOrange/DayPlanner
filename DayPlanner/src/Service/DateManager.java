@@ -1,3 +1,5 @@
+package Service;
+
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -12,7 +14,7 @@ public class DateManager {
 
     public LocalDateTime getDateInput() {
         if (rememberedDate != null) {
-            System.out.println("Remembered date: " + rememberedDate.toLocalDate() + ". Type 'Change' to enter a new date or press Enter continue with old one:");
+            System.out.println("Remembered date: " + rememberedDate.toLocalDate() + ". Type 'Change' to enter a new date or press Enter to continue with old one:");
             String input = scanner.nextLine();
 
             if ("Change".equalsIgnoreCase(input)) {

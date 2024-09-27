@@ -1,3 +1,8 @@
+package Service;
+
+import Model.RecurringTask;
+import Model.Task;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -37,27 +42,24 @@ public class TaskCreator {
             String isRecurring = scanner.nextLine().trim().toLowerCase();
 
             if (isRecurring.equals("yes")) {
-                System.out.println("Enter recurrence pattern (e.g., DAILY, WEEKLY, MONTHLY): ");
+                System.out.println("Enter recurrence pattern: Daily, Weekly, monthly");
                 String recurrence = scanner.nextLine();
 
-                System.out.println("Enter the number of occurrences: ");
+                System.out.println("Enter how many times it will happen: ");
                 int occurrenceCount;
                 try {
                     occurrenceCount = Integer.parseInt(scanner.nextLine());
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid number for occurrences. Please enter a valid integer.");
+                    System.out.println("What did you type, can you write maybe normal numb?");
                     return null;
                 }
-
-                System.out.printf("Creating a recurring task: %s, Start: %s, End: %s, Recurrence: %s, Occurrences: %d%n",
-                        title, start, end, recurrence, occurrenceCount);
 
                 return new RecurringTask(title, start, end, recurrence, occurrenceCount);
             }
 
             return new Task(title, start, end);
         } catch (Exception e) {
-            System.out.println("An error occurred while creating the task: " + e.getMessage());
+            System.out.println("Ooopsie something went wrong " + e.getMessage());
             return null;
         }
     }

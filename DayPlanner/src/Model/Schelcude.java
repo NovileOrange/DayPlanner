@@ -1,6 +1,5 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+package Model;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class Schelcude {
 
     @Override
     public String toString() {
-        return "Schelcude{" +
+        return "Model.Schelcude{" +
                 "tasks=" + tasks +
                 '}';
     }

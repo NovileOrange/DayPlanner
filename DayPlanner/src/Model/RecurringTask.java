@@ -1,3 +1,5 @@
+package Model;
+
 import java.time.LocalDateTime;
 
 public class RecurringTask extends Task {
@@ -28,7 +30,7 @@ public class RecurringTask extends Task {
 
     @Override
     public String toString() {
-        return "RecurringTask{" +
+        return "Model.RecurringTask{" +
                 "title='" + getTitle() + '\'' +
                 ", start=" + getStart() +
                 ", end=" + getEnd() +

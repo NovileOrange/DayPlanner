@@ -1,3 +1,5 @@
+package Model;
+
 import java.time.LocalDateTime;
 
 public class Task {
@@ -37,7 +39,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Model.Task{" +
                 "title='" + title + '\'' +
                 ", start=" + start +
                 ", end=" + end +
