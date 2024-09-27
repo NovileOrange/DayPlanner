@@ -47,7 +47,7 @@ public class Main {
                             if (taskToUpdate != null) {
                                 Task newTaskDetails = taskCreator.createTask();
                                 schelcude.updateTask(taskToUpdate, newTaskDetails);
-                                System.out.println("Model.Task updated: " + newTaskDetails);
+                                System.out.println("Task updated: " + newTaskDetails);
                             } else {
                                 System.out.println("Model.Task not found.");
                             }
@@ -63,7 +63,7 @@ public class Main {
                             if (taskToDelete != null) {
                                 schelcude.deleteTask(taskToDelete);
                             } else {
-                                System.out.println("Model.Task not found.");
+                                System.out.println("Task not found.");
                             }
                         } catch (Exception e) {
                             System.out.println("Error deleting task: " + e.getMessage());
@@ -87,7 +87,7 @@ public class Main {
                 System.out.println("Invalid input. Please enter a number.");
                 scanner.nextLine();
             } catch (Exception e) {
-                System.out.println("An unexpected error occurred: " + e.getMessage());
+                System.out.println("Something weird happened: " + e.getMessage());
             }
         }
     }
